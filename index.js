@@ -83,12 +83,17 @@ function myApp() {
         });
     });
 
-    _this.formLogin = () => {
+    $(document).on("click","#bar_add_chat",function(){
+        
+    });
 
+    _this.addChat = () => {
+        firebase.database().ref("chats").set({
+            
+        });
     }
     
     /*
-    
     function getPermission () {
         return new Promise((resolve, reject) => {
             Notification.requestPermission().then(status => {
