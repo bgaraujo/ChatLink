@@ -21,3 +21,31 @@
     bottom: 0;
     padding: 12px;
 }
+#message_place ul{
+    margin: 0;
+    padding: 0px 10px;
+}
+#message_place li.me{
+    text-align: end;
+    
+}
+#message_place li.me span{
+    border-radius: 6px 6px 0px 6px;
+    box-shadow: -2px 2px 6px 0px #8c898985;
+    background-color: #000;
+    color: #fff;
+}
+#message_place li{
+    list-style: none;
+    width: 100%;
+    padding: 5px 0px;
+}
+#message_place li span{
+    list-style: none;
+    display: inline-block;
+    padding: 6px 8px;
+    background-color: #ccc;
+    border-radius: 6px 6px 6px 0px;
+    box-shadow: 1px 2px 6px 0px #8c898985;
+}
+

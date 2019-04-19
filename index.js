@@ -36,8 +36,11 @@ function myApp() {
             $( "#message_place ul" ).html("");
             let response = snapshot.val();
             for (email in response) {
-                $( "#message_place ul" ).append( "<li>"+response[email].message+"</li>" );
-                console.log(response[email]);
+                var chatClass = "";
+                if( response[email].user == _this.user.id )
+                    chatClass = "me";
+                $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+response[email].message+"</span></li>" );
+                console.log(response[email].user);
             }
         });
     }
@@ -161,7 +164,7 @@ function myApp() {
         });
     }
     _this.menu = () =>{
-        $(".navbar-right").append("<li><a id=\"bar_add_chat\"><span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span></a></li>");
+        $(".navbar-right ul").append("<li><a id=\"bar_add_chat\">Adicionar chat</a></li>");
     }
     
     _this.getPermission = () => {
