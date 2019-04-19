@@ -90,7 +90,7 @@ function myApp() {
         starCountRef.on('value', function(snapshot) {
             let response = snapshot.val();
             for (id in response) {
-                $("#chats").append("<li data-chat=\""+id+"\">"+response[id].link+"</li>");
+                $("#chats").append("<li data-chat=\""+response[id].link+"\">"+response[id].link+"</li>");
             }
         });
     }
