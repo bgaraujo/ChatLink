@@ -11,10 +11,12 @@ function myApp() {
 
     _this.user = {
         email:"",
-        password:""
+        id:"",
+        chat:""
     };
 
 	_this.init = () => {
+        //_this.getPermission();
         firebase.initializeApp(config);
         _this.authInit();
 	};
@@ -29,12 +31,25 @@ function myApp() {
     };
 
     _this.getMessages = () => {
-        var starCountRef = firebase.database().ref('/');
+        var starCountRef = firebase.database().ref('chats/'+_this.user.chat+'/messages');
         starCountRef.on('value', function(snapshot) {
+            $( "#message_place ul" ).html("");
             let response = snapshot.val();
             for (email in response) {
-                console.log(response);
+                $( "#message_place ul" ).append( "<li>"+response[email].message+"</li>" );
+                console.log(response[email]);
             }
+        });
+    }
+    _this.setMessage = (message) => {
+        var date = new Date();
+        var timestamp = date.getTime();
+        firebase.database().ref("chats/"+_this.user.chat+"/messages").push({
+            message:message,
+            user:_this.user.id,
+            time:timestamp
+        }).then(function(params) {
+            console.log(params);
         });
     }
     _this.users = () => {
@@ -50,25 +65,41 @@ function myApp() {
     _this.authInit = () => {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-                //console.log(user.email);
                 _this.user.email = user.email;
+                _this.user.id = user.uid;
+                //Remove form de login
                 $("#panel_login").remove();
-                _this.getMessages();
+
+                //Add botão de add chat
+                _this.menu();
+
+                _this.getChats();
 
 
             } else {
                 console.log("off");
             }
-          });
-        
-        /*
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-        // ...
-        });*/
+        });
     }
+
+    _this.getChats = () => {
+        var starCountRef = firebase.database().ref('users/'+_this.user.id+'/chats');
+        starCountRef.on('value', function(snapshot) {
+            let response = snapshot.val();
+            for (id in response) {
+                $("#chats").append("<li data-chat=\""+id+"\">"+response[id].link+"</li>");
+            }
+        });
+    }
+    //Entra no chat
+    $(document).on("click","[data-chat]",function(){
+        _this.user.chat = $(this).data("chat");
+        $("#chats").hide();
+        $("#chat").show();
+
+        _this.getMessages();
+
+    });
 
     $(document).on("click","#form_login",function(){
         var email = $("#form_email").val();
@@ -84,46 +115,69 @@ function myApp() {
     });
 
     $(document).on("click","#bar_add_chat",function(){
-        
+        if( $("#modal_add_chat").length == 0)
+            $("body").append(`<div class="modal fade" id="modal_add_chat" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">Adicionar chat</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Link do chat</label>
+                                <input type="text" class="form-control" id="add_chat_link" placeholder="http://...">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="modal_add_chat_submit">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`);
+        else
+            $("#add_chat_link").val("");
+      $("#modal_add_chat").modal("show");
     });
 
-    _this.addChat = () => {
-        firebase.database().ref("chats").set({
-            
+    $(document).on("click","#modal_add_chat_submit",function(){
+        if($("#add_chat_link").val() != "")
+            _this.addChat($("#add_chat_link").val());
+    });
+
+    $(document).on("click","#send_message",function(){
+        if( $("#input_message").val() != "" )
+            _this.setMessage($("#input_message").val());
+        $("#input_message").val("");
+    });
+
+    _this.addChat = (link) => {
+        firebase.database().ref("users/"+_this.user.id+"/chats").push({
+            link:link
+        }).then(function(params) {
+            console.log(params);
+            $("#modal_add_chat").modal("hide");
         });
     }
+    _this.menu = () =>{
+        $(".navbar-right").append("<li><a id=\"bar_add_chat\"><span class=\"glyphicon glyphicon-plus\" aria-hidden=\"true\"></span></a></li>");
+    }
     
-    /*
-    function getPermission () {
-        return new Promise((resolve, reject) => {
-            Notification.requestPermission().then(status => {
-            updateStatus(status);
-            if (status == 'granted') {
-                resolve();
-            }else{
-                reject(status);
-            }
-        });
-    });
-
-    getPermission()
-            .then(function(){
-                // e quando temos a permissão
-                var n = new Notification("Hello!", {
-                    // use \n para quebrar linhas
-                    body: "Corpo\nda mensagem",
-                     // opcional
-                    icon: './felipenmoura.jpg'
-                });
-            }).catch(function(status){
-                // permissão negada(ou default)
-                console.log('Had no permission!');
-                // mostre a mensagem de outra forma
+    _this.getPermission = () => {
+        if( Notification.permission != "granted" )
+            Notification.requestPermission().then(function(result) {
+                if (result === 'denied') {
+                    console.log('Permission wasn\'t granted. Allow a retry.');
+                    return;
+                }
+                if (result === 'default') {
+                    console.log('The permission request was dismissed.');
+                    return;
+                }
+                // Do something with the granted permission.
             });
-}
-    
-    
-    */
+    }
 
 	_this.init();
 }

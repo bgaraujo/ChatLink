@@ -1,0 +1,23 @@
+#chats li{
+    list-style: none;
+    border-bottom: 1px solid #bbb;
+    padding: 11px;
+    margin: 0;
+    font-weight: 700;
+}
+#chats{
+    padding: 0;
+}
+#chat{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
+#message_place{
+    height: 100%;
+}
+#message_create{
+    position: fixed;
+    bottom: 0;
+    padding: 12px;
+}
