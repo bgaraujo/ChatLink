@@ -14,6 +14,7 @@
     <script src="index.js"></script>
 </header>
 <body>
+    <!-- Barra superior -->
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -32,28 +33,28 @@
             </div>
         </div> 
     </nav>
+
     <div class="row">
         <div class="container-fluid">
           
-          <!-- Cadastro-->
-          <div class="panel panel-default col-xs-10 col-xs-offset-1" id="panel_cad" style="display: none;">
-            <div class="panel-body">
-              <h2>Cadastro</h2>
+            <!-- Cadastro-->
+            <div class="panel panel-default col-xs-10 col-xs-offset-1" id="panel_cad" style="display: none;">
+                <div class="panel-body">
+                    <h4>Cadastro</h4>
+                    <form>
+                        <div class="form-group form_cad_email">
+                            <label>Email</label>
+                            <input id="form_cad_email" type="email" class="form-control">
+                        </div>
+                        <div class="form-group form_cad_password">
+                            <label>Password</label>
+                            <input id="form_cad_password" type="password" class="form-control">
+                        </div>
+                        <div id="form_cad_submit" class="btn btn-default">Cadastrar</div>
+                        <div id="form_cad_cancel" class="btn btn-danger pull-right">voltar</div>
+                    </form>
+                </div>
             </div>
-             <div class="panel-body">
-          <form>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" class="form-control">
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-default">Cadastrar</button>
-          </form>
-          </div>
-          </div>
           
           <!-- Login -->
             <div class="panel panel-default col-xs-10 col-xs-offset-1" id="panel_login">
@@ -67,11 +68,12 @@
                             <label for="exampleInputPassword1">Password</label>
                             <input type="password" class="form-control" id="form_pass" placeholder="Password">
                         </div>
-                        <div id="form_login" class="btn btn-default">Entrar</div>
+                        <div id="form_login" class="btn btn-primary">Entrar</div>
+                        <div id="form_cad" class="btn btn-default pull-right">Cadastrar</div>
                     </form>
-                    <div id="form_cad" class="col-md-12 text-right">carastrar</div>
                 </div>
             </div>
+
         </div>
     </div>
     <ul id="chats">

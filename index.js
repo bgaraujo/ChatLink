@@ -104,15 +104,81 @@ function myApp() {
 
     });
 
+    /**
+     *  Login
+     *  obtem os parametros do form e faz login no firebase
+     */
     $(document).on("click","#form_login",function(){
         var email = $("#form_email").val();
         var password = $("#form_pass").val();
-        firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
-        }).catch(function(error) {
+        
+        firebase.auth().
+        signInWithEmailAndPassword(email, password).
+        then(function(user) {
+            
+        }).
+        catch(function(error) {
             // Handle Errors here.
+            
             var errorCode = error.code;
             var errorMessage = error.message;
         });
+    });
+    /**
+     * Cadastro
+     */
+    $(document).on("click","#form_cad_submit",function(){
+        var email = $("#form_cad_email").val();
+        var password = $("#form_cad_password").val();
+
+        if(email == ""){
+            if( !$(".form_cad_email").hasClass("has-error") )
+                $(".form_cad_email").addClass("has-error");
+
+                alert("email obrigatorio");
+            return false;
+        }else{
+            $(".form_cad_email").removeClass("has-error"); 
+        }
+
+        if(password.length < 6){
+            if( !$(".form_cad_password").hasClass("has-error") )
+                $(".form_cad_password").addClass("has-error");
+
+                alert("Sua senha deve ter no minimo 6 caracteres");
+            return false;
+        }else{
+            $(".form_cad_password").removeClass("has-error"); 
+        }
+
+        firebase.auth().createUserWithEmailAndPassword(email, password).
+        then(function(user) {
+            _this.user.id = user.uid;
+            _this.user.email = user.email;
+            _this.authInit;
+        }).
+        catch(function(error) {
+            
+            console.log(error);
+            
+            switch (error.code) {
+                case "auth/invalid-email":
+                    if( !$(".form_cad_email").hasClass("has-error") )
+                        $(".form_cad_email").addClass("has-error");
+                    alert("Email invalido");
+                    break;
+                case "auth/email-already-in-use":
+                    if( !$(".form_cad_email").hasClass("has-error") )
+                        $(".form_cad_email").addClass("has-error");
+                    alert("Email ja utilizado");
+                    break;
+
+                default:
+                    break;
+            }
+            
+        });
+
     });
 
     $(document).on("click","#bar_add_chat",function(){
@@ -148,6 +214,11 @@ function myApp() {
             _this.addChat($("#add_chat_link").val());
     });
 
+    $(document).on("click","#form_cad_cancel",function(){
+        $("#panel_cad").hide();
+        $("#panel_login").show();
+    });
+
     $(document).on("click","#send_message",function(){
         if( $("#input_message").val() != "" )
             _this.setMessage($("#input_message").val());
@@ -166,12 +237,16 @@ function myApp() {
         $(".navbar-right ul").append("<li><a id=\"bar_exit\">Sair</a></li>");
     }
     
+    /**
+     * Sair
+     */
     $(document).on("click","#bar_exit",function(){
-      firebase.auth().signOut().then(function() {
-        // Sign-out successful.
-        console.log("saiu");
-      }).catch(function(error) {
-        // An error happened.
+      firebase.auth().signOut().
+      then(function() {
+        location.reload();
+      }).
+      catch(function(error) {
+        //erro  
       });
     });
     
