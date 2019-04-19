@@ -40,7 +40,7 @@ function myApp() {
                 if( response[email].user == _this.user.id )
                     chatClass = "me";
                 $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+response[email].message+"</span></li>" );
-                console.log(response[email].user);
+                console.log(response[email],_this.user.id);
             }
         });
     }
@@ -108,10 +108,8 @@ function myApp() {
         var email = $("#form_email").val();
         var password = $("#form_pass").val();
         firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
-            console.log(user.user.email);
         }).catch(function(error) {
             // Handle Errors here.
-            console.log(error)
             var errorCode = error.code;
             var errorMessage = error.message;
         });
@@ -159,7 +157,6 @@ function myApp() {
         firebase.database().ref("users/"+_this.user.id+"/chats").push({
             link:link
         }).then(function(params) {
-            console.log(params);
             $("#modal_add_chat").modal("hide");
         });
     }
