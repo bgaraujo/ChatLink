@@ -140,7 +140,8 @@ function myApp() {
                 </div>
             </div>`);
         else
-            $("#add_chat_link").val("");
+       
+      $("#add_chat_link").val("");
       $("#modal_add_chat").modal("show");
     });
 
@@ -165,7 +166,22 @@ function myApp() {
     }
     _this.menu = () =>{
         $(".navbar-right ul").append("<li><a id=\"bar_add_chat\">Adicionar chat</a></li>");
+        $(".navbar-right ul").append("<li><a id=\"bar_exit\">Sair</a></li>");
     }
+    
+    $(document).on("click","#bar_exit",function(){
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        console.log("saiu");
+      }).catch(function(error) {
+        // An error happened.
+      });
+    });
+    
+    $(document).on("click","#form_cad",function(){
+      $("#panel_login").hide();
+      $("#panel_cad").show();
+    });
     
     _this.getPermission = () => {
         if( Notification.permission != "granted" )
