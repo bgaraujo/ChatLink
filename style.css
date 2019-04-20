@@ -1,5 +1,36 @@
+body{
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    display: table;
+}
+input{
+    background-color: rgba(255, 255, 255, 0.62) !important;
+}
+.heigth_full{
+    height: inherit;
+}
 .navbar{
     z-index: 1;
+    margin: 0;
+    border-radius: 0;
+    position: absolute;
+    width: 100%;
+}
+.row{
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    padding-top: 52px;
+    left: 0;
+    top: 0;
+    margin: 0;
+}
+.no_padding{
+    padding: 0;
+}
+.scroll{
+    overflow: scroll;
 }
 ::-webkit-scrollbar {
     width: 6px;
@@ -16,9 +47,10 @@
 #chats li{
     list-style: none;
     border-bottom: 1px solid #bbb;
-    padding: 11px;
+    padding: 14px;
     margin: 0;
     font-weight: 700;
+    background-color: #fffae4;
 }
 #chats{
     padding: 0;
@@ -28,23 +60,27 @@
     height: 100%;
     width: 100%;
 }
+.bg_cat{
+    background-image: url(bg.jpg);  
+}
 #message_place{
-    height: 100%;
-    overflow: scroll;
-    position: fixed;
-    top: 0;
-    bottom: 0;
+    position: relative;
+    height: inherit;
+    padding: 0;
+    margin: 0;
+    display: inline-table;
     width: 100%;
+    padding-bottom: 35px;
+}
+#message_create{
+    position: sticky;
+    bottom: 6px;
 }
 #message_create{
     position: fixed;
     bottom: 0;
-    padding: 12px;
-}
-#message_place ul{
-    margin: 0;
-    padding: 0px 10px;
-    margin-bottom: 60px;
+    margin-right: 15px;
+    margin-bottom: 8px;
 }
 #message_place li.me{
     text-align: end;
@@ -72,4 +108,3 @@
 #message_place li span label{
     text-shadow: 1px 1px 4px #696969;
 }
-

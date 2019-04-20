@@ -43,9 +43,9 @@ function myApp() {
                 }else{
                     chatUser = "<label style=\"color:"+user.color+"\">"+user.name+" disse:</label>";
                 }
-                $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+chatUser+"<p>"+response[key].message+"</p></span></li>" );
+                $( "#message_place" ).append( "<li class=\""+chatClass+"\"><span>"+chatUser+"<p>"+response[key].message+"</p></span></li>" );
             }
-            $("#message_place").animate({ scrollTop: $("#message_place ul")[0].offsetHeight }, 1000);
+            $("#div_message_place").animate({ scrollTop: $("#message_place")[0].offsetHeight }, 1000);
         });
     }
     /**
@@ -140,7 +140,7 @@ function myApp() {
     $(document).on("click","[data-chat]",function(){
         _this.user.chat = $(this).data("chat");
 
-        $("#chats").hide();
+        //$("#chats").hide();
         $("#chat").show();
 
         _this.getChatUsers();

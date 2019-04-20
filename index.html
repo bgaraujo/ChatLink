@@ -73,26 +73,42 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
-    <ul id="chats">
-        <!-- Lista de conversas -->
-    </ul>
+
+    <div class="row heigth_full">
+        <div class="container-fluid heigth_full no_padding">
+            
+            <div class="col-md-4 no_padding hidden-sm">
+                <ul id="chats">
+                        <!-- Lista de conversas -->
+                </ul>
+            </div>
+
+            <div id="div_message_place" class="col-md-8 bg_cat heigth_full scroll">
+                <ul id="message_place">
+                    <!-- messages -->
+                </ul>
+                
+                <div id="message_create">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="input_message">
+                        <span class="input-group-addon" id="send_message">
+                            <span  class="glyphicon glyphicon-send" aria-hidden="true"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+    
+            <!--
     <div id="chat" style="display: none;">
         <div id="message_place">
             <ul>
-                <!-- messages -->
+                <!-- messages - ->
             </ul>
         </div>
+    -->
         
-        <div class="col-lg-12" id="message_create">
-            <div class="input-group">
-                <input type="text" class="form-control" id="input_message">
-                <span class="input-group-addon" id="send_message">
-                    <span  class="glyphicon glyphicon-send" aria-hidden="true"></span>
-                </span>
-            </div>
-        </div>
+        
     </div>
 </body>
