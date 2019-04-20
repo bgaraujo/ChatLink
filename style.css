@@ -1,3 +1,18 @@
+.navbar{
+    z-index: 1;
+}
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}  
+::-webkit-scrollbar-thumb {
+    background: #00000054; 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
 #chats li{
     list-style: none;
     border-bottom: 1px solid #bbb;
@@ -19,6 +34,7 @@
     position: fixed;
     top: 0;
     bottom: 0;
+    width: 100%;
 }
 #message_create{
     position: fixed;
@@ -52,5 +68,8 @@
     background-color: #ccc;
     border-radius: 6px 6px 6px 0px;
     box-shadow: 1px 2px 6px 0px #8c898985;
+}
+#message_place li span label{
+    text-shadow: 1px 1px 4px #696969;
 }
 

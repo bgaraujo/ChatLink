@@ -41,14 +41,11 @@ function myApp() {
                 if( response[key].user == _this.user.id ){
                     chatClass = "me";
                 }else{
-                    console.log(user);
                     chatUser = "<label style=\"color:"+user.color+"\">"+user.name+" disse:</label>";
                 }
-                
-                
                 $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+chatUser+"<p>"+response[key].message+"</p></span></li>" );
-                
             }
+            $("#message_place").animate({ scrollTop: $("#message_place ul")[0].offsetHeight }, 1000);
         });
     }
     /**
