@@ -105,6 +105,7 @@ function myApp() {
      * Verifica o login no inicio
      */
     _this.authInit = () => {
+        $("#loading").modal("show");
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 _this.user.email = user.email;
@@ -114,12 +115,16 @@ function myApp() {
 
                 //Add botão de add chat
                 _this.menu();
-
                 _this.getChats();
 
+                //Arruma as janelas
+                $("[data-user=off]").addClass("hidden");
+                $("[data-user=on]").removeClass("hidden");
 
+                $("#loading").modal("hide");
             } else {
                 console.log("off");
+                $("#loading").modal("hide");
             }
         });
     }
@@ -135,6 +140,9 @@ function myApp() {
                 $("#chats").append("<li data-chat=\""+response[id].link+"\">"+response[id].link+"</li>");
             }
         });
+        if(_this.user.chat == ""){
+            $("#div_chats").removeClass("visible-md").removeClass("visible-lg").removeClass("visible-sm");
+        }
     }
     //Entra no chat
     $(document).on("click","[data-chat]",function(){
@@ -142,9 +150,12 @@ function myApp() {
 
         //$("#chats").hide();
         $("#chat").show();
-
+        $("#div_message_place").removeClass("hidden");
+        
         _this.getChatUsers();
         _this.getMessages();
+
+        $("#div_chats").addClass("visible-md").addClass("visible-lg").addClass("visible-sm");;
 
     });
 
@@ -300,6 +311,10 @@ function myApp() {
     $(document).on("click","#form_cad",function(){
       $("#panel_login").hide();
       $("#panel_cad").show();
+    });
+
+    $(document).on("click","#nav_bar_back",function(){
+        
     });
     
     _this.getPermission = () => {

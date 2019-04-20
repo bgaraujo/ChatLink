@@ -7,21 +7,31 @@ body{
 input{
     background-color: rgba(255, 255, 255, 0.62) !important;
 }
-.heigth_full{
-    height: inherit;
-}
 .navbar{
     z-index: 1;
     margin: 0;
     border-radius: 0;
     position: absolute;
     width: 100%;
+    box-shadow: 1px 1px 7px #5a5a5a;
+}
+.navbar-inverse .text-center label{
+    color: #fff;
+    font-weight: 100;
+    font-family: monospace;
+    font-size: x-large;
+}
+.navbar-inverse .text-center label span{
+    color: #6d6d6d;
+}
+.panel{
+    margin-top: 20px;
 }
 .row{
     height: 100%;
     position: absolute;
     width: 100%;
-    padding-top: 52px;
+    padding-top: 85px;
     left: 0;
     top: 0;
     margin: 0;
@@ -31,6 +41,12 @@ input{
 }
 .scroll{
     overflow: scroll;
+}
+.heigth_full{
+    height: 100%;
+}
+[data-chat]{
+    cursor: pointer;
 }
 ::-webkit-scrollbar {
     width: 6px;
@@ -108,3 +124,45 @@ input{
 #message_place li span label{
     text-shadow: 1px 1px 4px #696969;
 }
+
+.spinner {
+    width: 100px;
+    height: 100px;
+  
+    position: relative;
+    margin: 100px auto;
+  }
+  
+  .double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #fff;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+  }
+  
+  .double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+  }
+  
+  @-webkit-keyframes sk-bounce {
+    0%, 100% { -webkit-transform: scale(0.0) }
+    50% { -webkit-transform: scale(1.0) }
+  }
+  
+  @keyframes sk-bounce {
+    0%, 100% { 
+      transform: scale(0.0);
+      -webkit-transform: scale(0.0);
+    } 50% { 
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
+  }
