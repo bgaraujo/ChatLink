@@ -1,5 +1,7 @@
 function myApp() {
+
     const _this = myApp;
+
     const config = {
         apiKey: "AIzaSyD_iYv7H08I7YhIE7Bb851SElIPkYaiDXE",
         authDomain: "chatlink-136f1.firebaseapp.com",
@@ -8,6 +10,8 @@ function myApp() {
         storageBucket: "chatlink-136f1.appspot.com",
         messagingSenderId: "9805089039"
     };
+
+    _this.chatUsers = new Array();
 
     _this.user = {
         email:"",
@@ -21,29 +25,68 @@ function myApp() {
         _this.authInit();
 	};
    
-
-    _this.save = () => {
-        firebase.database().ref("").set({
-            user:"",
-            message:"",
-            datetime:""
-        });
-    };
-
+    /**
+     * Obtem as mesangem do grupo que estiver
+     */
     _this.getMessages = () => {
         var starCountRef = firebase.database().ref('chats/'+_this.user.chat+'/messages');
         starCountRef.on('value', function(snapshot) {
             $( "#message_place ul" ).html("");
             let response = snapshot.val();
-            for (email in response) {
+            for (key in response) {
                 var chatClass = "";
-                if( response[email].user == _this.user.id )
+                if( response[key].user == _this.user.id )
                     chatClass = "me";
-                $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+response[email].message+"</span></li>" );
-                console.log(response[email],_this.user.id);
+                _this.getUserById(response[key].user);
+                //console.log(response[key].user,_this.chatUsers,_this.getUserById(response[key].user));
+                $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+response[key].message+"</span></li>" );
+                
             }
         });
     }
+    /**
+     * 
+     */
+    _this.getChatUsers = () => {
+        var starCountRef = firebase.database().ref('chats/'+_this.user.chat+'/users');
+        starCountRef.on('value', function(snapshot) {
+            let response = snapshot.val();
+            for (key in response) {
+                var email = response[key].email.split("@");
+                _this.chatUsers.push({
+                    id:response[key].id,
+                    name:email[0],
+                    color:_this.generateColor()
+                });
+            }
+        });
+    }
+
+    _this.getUserById = (id) => {
+        console.log(_this.chatUsers);
+        for( var i = 0; _this.chatUsers.length < i ; i++ ){
+            var cUser = _this.chatUsers[i];
+            console.log(cUser);
+            if( cUser.id == id )
+                return cUser;
+        }
+    }
+
+    _this.generateColor = () => {
+        var hexadecimais = '0123456789ABCDEF';
+        var cor = '#';
+      
+        // Pega um número aleatório no array acima
+        for (var i = 0; i < 6; i++ ) {
+        //E concatena à variável cor
+            cor += hexadecimais[Math.floor(Math.random() * 16)];
+        }
+        return cor;
+    }
+
+    /**
+     * Envia mensagem no grupo que estiver
+     */
     _this.setMessage = (message) => {
         var date = new Date();
         var timestamp = date.getTime();
@@ -55,16 +98,10 @@ function myApp() {
             console.log(params);
         });
     }
-    _this.users = () => {
-        var starCountRef = firebase.database().ref('users');
-        starCountRef.on('value', function(snapshot) {
-            let response = snapshot.val();
-            for (email in response) {
-                console.log(response);
-            }
-        });
-    }
 
+    /**
+     * Verifica o login no inicio
+     */
     _this.authInit = () => {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
@@ -85,6 +122,9 @@ function myApp() {
         });
     }
 
+    /**
+     * Obtem as conversas adicionadas
+     */
     _this.getChats = () => {
         var starCountRef = firebase.database().ref('users/'+_this.user.id+'/chats');
         starCountRef.on('value', function(snapshot) {
@@ -97,10 +137,12 @@ function myApp() {
     //Entra no chat
     $(document).on("click","[data-chat]",function(){
         _this.user.chat = $(this).data("chat");
+
         $("#chats").hide();
         $("#chat").show();
 
         _this.getMessages();
+        _this.getChatUsers();
 
     });
 
@@ -158,9 +200,6 @@ function myApp() {
             _this.authInit;
         }).
         catch(function(error) {
-            
-            console.log(error);
-            
             switch (error.code) {
                 case "auth/invalid-email":
                     if( !$(".form_cad_email").hasClass("has-error") )
@@ -229,6 +268,12 @@ function myApp() {
         firebase.database().ref("users/"+_this.user.id+"/chats").push({
             link:link
         }).then(function(params) {
+            firebase.database().ref("chats/"+link+"/users").push({
+                id:_this.user.id,
+                email:_this.user.email
+            }).then(function(params) {
+            
+            });
             $("#modal_add_chat").modal("hide");
         });
     }
