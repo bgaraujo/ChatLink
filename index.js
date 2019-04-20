@@ -35,11 +35,18 @@ function myApp() {
             let response = snapshot.val();
             for (key in response) {
                 var chatClass = "";
-                if( response[key].user == _this.user.id )
+                var chatUser = "";
+                var user = _this.getUserById(response[key].user);
+
+                if( response[key].user == _this.user.id ){
                     chatClass = "me";
-                _this.getUserById(response[key].user);
-                //console.log(response[key].user,_this.chatUsers,_this.getUserById(response[key].user));
-                $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+response[key].message+"</span></li>" );
+                }else{
+                    console.log(user);
+                    chatUser = "<label style=\"color:"+user.color+"\">"+user.name+" disse:</label>";
+                }
+                
+                
+                $( "#message_place ul" ).append( "<li class=\""+chatClass+"\"><span>"+chatUser+"<p>"+response[key].message+"</p></span></li>" );
                 
             }
         });
@@ -63,10 +70,8 @@ function myApp() {
     }
 
     _this.getUserById = (id) => {
-        console.log(_this.chatUsers);
-        for( var i = 0; _this.chatUsers.length < i ; i++ ){
+        for( var i = 0; _this.chatUsers.length > i ; i++ ){
             var cUser = _this.chatUsers[i];
-            console.log(cUser);
             if( cUser.id == id )
                 return cUser;
         }
@@ -141,8 +146,8 @@ function myApp() {
         $("#chats").hide();
         $("#chat").show();
 
-        _this.getMessages();
         _this.getChatUsers();
+        _this.getMessages();
 
     });
 

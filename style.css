@@ -15,6 +15,10 @@
 }
 #message_place{
     height: 100%;
+    overflow: scroll;
+    position: fixed;
+    top: 0;
+    bottom: 0;
 }
 #message_create{
     position: fixed;
@@ -24,6 +28,7 @@
 #message_place ul{
     margin: 0;
     padding: 0px 10px;
+    margin-bottom: 60px;
 }
 #message_place li.me{
     text-align: end;
