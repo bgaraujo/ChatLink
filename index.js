@@ -20,9 +20,10 @@ function myApp() {
     };
 
 	_this.init = () => {
-        //_this.getPermission();
         firebase.initializeApp(config);
+        //_this.getPermission();
         _this.authInit();
+        
 	};
    
     /**
@@ -321,18 +322,15 @@ function myApp() {
     });
     
     _this.getPermission = () => {
-        if( Notification.permission != "granted" )
-            Notification.requestPermission().then(function(result) {
-                if (result === 'denied') {
-                    console.log('Permission wasn\'t granted. Allow a retry.');
-                    return;
-                }
-                if (result === 'default') {
-                    console.log('The permission request was dismissed.');
-                    return;
-                }
-                // Do something with the granted permission.
-            });
+        const messaging = firebase.messaging();
+        console.log(messaging.getToken());
+        /*messaging.requestPermission().then(function() {
+        console.log('Notification permission granted.');
+        // TODO(developer): Retrieve an Instance ID token for use with FCM.
+        // ...
+        }).catch(function(err) {
+        console.log('Unable to get permission to notify.', err);
+        });*/
     }
 
 	_this.init();
