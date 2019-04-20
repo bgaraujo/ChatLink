@@ -31,7 +31,7 @@ function myApp() {
     _this.getMessages = () => {
         var starCountRef = firebase.database().ref('chats/'+_this.user.chat+'/messages');
         starCountRef.on('value', function(snapshot) {
-            $( "#message_place ul" ).html("");
+            $( "#message_place" ).html("");
             let response = snapshot.val();
             for (key in response) {
                 var chatClass = "";
@@ -45,11 +45,11 @@ function myApp() {
                 }
                 $( "#message_place" ).append( "<li class=\""+chatClass+"\"><span>"+chatUser+"<p>"+response[key].message+"</p></span></li>" );
             }
-            $("#div_message_place").animate({ scrollTop: $("#message_place")[0].offsetHeight }, 1000);
+            $("#div_message_place").scrollTop($("#message_place")[0].offsetHeight);
         });
     }
     /**
-     * 
+     * Salva os usuarios em um array com cores para diferenciar no chat
      */
     _this.getChatUsers = () => {
         var starCountRef = firebase.database().ref('chats/'+_this.user.chat+'/users');
@@ -123,7 +123,6 @@ function myApp() {
 
                 $("#loading").modal("hide");
             } else {
-                console.log("off");
                 $("#loading").modal("hide");
             }
         });
@@ -137,7 +136,7 @@ function myApp() {
         starCountRef.on('value', function(snapshot) {
             let response = snapshot.val();
             for (id in response) {
-                $("#chats").append("<li data-chat=\""+response[id].link+"\">"+response[id].link+"</li>");
+                $("#chats").append("<li data-chat=\""+response[id].link+"\"><span class=\"glyphicon glyphicon-link\" aria-hidden=\"true\"></span>"+atob(response[id].link)+"</li>");
             }
         });
         if(_this.user.chat == ""){
@@ -278,17 +277,20 @@ function myApp() {
     });
 
     _this.addChat = (link) => {
-        firebase.database().ref("users/"+_this.user.id+"/chats").push({
-            link:link
+        link = btoa(link);
+        firebase.database().ref("chats/"+link+"/users").push({
+            id:_this.user.id,
+            email:_this.user.email
         }).then(function(params) {
-            firebase.database().ref("chats/"+link+"/users").push({
-                id:_this.user.id,
-                email:_this.user.email
+            firebase.database().ref("users/"+_this.user.id+"/chats").push({
+                link:link
             }).then(function(params) {
-            
+                $("#modal_add_chat").modal("hide");
             });
-            $("#modal_add_chat").modal("hide");
+        }).catch(function(e){
+            console.log(e);
         });
+        
     }
     _this.menu = () =>{
         $(".navbar-right ul").append("<li><a id=\"bar_add_chat\">Adicionar chat</a></li>");
@@ -314,7 +316,8 @@ function myApp() {
     });
 
     $(document).on("click","#nav_bar_back",function(){
-        
+        $("#div_message_place").addClass("hidden");
+        $("#div_chats").removeClass("visible-md").removeClass("visible-lg").removeClass("visible-sm");
     });
     
     _this.getPermission = () => {

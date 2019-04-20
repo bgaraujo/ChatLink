@@ -48,6 +48,11 @@ input{
 [data-chat]{
     cursor: pointer;
 }
+
+#div_chats{
+    box-shadow: 1px 0px 9px #dcdcdc;
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -71,6 +76,10 @@ input{
 #chats{
     padding: 0;
 }
+#chats li span{
+    margin-right: 13px;
+    color: #bbb;
+}
 #chat{
     position: fixed;
     height: 100%;
@@ -78,6 +87,11 @@ input{
 }
 .bg_cat{
     background-image: url(bg.jpg);  
+}
+#div_message_place{
+    -webkit-box-shadow: 0px 0px 10px #999 inset;
+	   -moz-box-shadow: 0px 0px 10px #999 inset; 
+		    box-shadow: 0px 0px 10px #999 inset;
 }
 #message_place{
     position: relative;
@@ -87,6 +101,9 @@ input{
     display: inline-table;
     width: 100%;
     padding-bottom: 35px;
+}
+#message_place p{
+    margin: 0;
 }
 #message_create{
     position: sticky;
